@@ -24,7 +24,7 @@ and encodeRope (rope : Rope.t) : Rope.t =
   else
     let encodedLen = encodeInt len in
     let lenlen = Rope.length encodedLen in
-    Rope.concat Rope.empty [encodeInt (183 + lenlen); encodedLen; rope]
+    Rope.concat Rope.empty [immediateByte (183 + lenlen); encodedLen; rope]
 and encodeList (lst : t list) : Rope.t =
   let body = Rope.concat Rope.empty (List.map encode lst) in
   let bodyLen = Rope.length body in
@@ -33,7 +33,7 @@ and encodeList (lst : t list) : Rope.t =
   else
     let bodyLen = encodeInt bodyLen in
     let bodyLenLen = Rope.length bodyLen in
-    Rope.concat Rope.empty [encodeInt (247 + bodyLenLen); bodyLen; body]
+    Rope.concat Rope.empty [immediateByte (247 + bodyLenLen); bodyLen; body]
 
 exception InvalidRlp
 

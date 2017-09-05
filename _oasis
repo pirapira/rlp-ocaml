@@ -18,7 +18,7 @@ Executable "test-rlp"
   Build$: flag(tests)
   Install: false
   CompiledObject: best
-  BuildDepends: rlp, oUnit
+  BuildDepends: rlp, oUnit, hex
 Test runTestRlp
   TestTools: test-rlp
   Command: $test_rlp
