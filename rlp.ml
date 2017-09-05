@@ -66,10 +66,12 @@ let rec decodeObj (rope : Rope.t) : (t * Rope.t) =
       (if bodyLen < 56 then raise InvalidRlp else
          (RlpList (decodeList (Rope.sub rope (1 + bodyLenLen) bodyLen)), Rope.sub rope (1 + bodyLenLen + bodyLen) (len - 1 - bodyLenLen - bodyLen)))
 and decodeList (rope : Rope.t) : t list =
-  if Rope.is_empty rope then []
+  decodeListInner [] rope
+and decodeListInner revAcc rope : t list =
+  if Rope.is_empty rope then List.rev revAcc
   else
     let (hd, rest) = decodeObj rope in
-    hd :: decodeList rest
+    decodeListInner (hd :: revAcc) rest
 
 let decode (rope : Rope.t) : t =
   try
