@@ -1,7 +1,7 @@
 OASISFormat: 0.4
 Name:        rlp
 Version:     0.1
-Synopsis:    An RLP serialization library. RLP can encode recursive lists of
+Synopsis:    An RLP (Recursive Length Prefix) serialization library. RLP can encode recursive lists of
   bytesequences into a bytesequence.
 Authors:     Yoichi Hirai
 License:     Apache-2.0
