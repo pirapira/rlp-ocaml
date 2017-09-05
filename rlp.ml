@@ -49,18 +49,22 @@ let rec decodeObj (rope : Rope.t) : (t * Rope.t) =
     if firstChar < 128 then (RlpData (Rope.sub rope 0 1), Rope.sub rope 1 (len - 1))
     else if firstChar < 184 then
       let bodyLen = firstChar - 128 in
-      (RlpData (Rope.sub rope 1 bodyLen), Rope.sub rope (1 + bodyLen) (len - 1 - bodyLen))
+      let ret = Rope.sub rope 1 bodyLen in
+      (if bodyLen = 1 && Char.code(Rope.get ret 0) < 128 then raise InvalidRlp else
+         (RlpData ret, Rope.sub rope (1 + bodyLen) (len - 1 - bodyLen)))
     else if firstChar < 192 then
       let bodyLenLen = firstChar - 183 in
       let bodyLen = decodeInt (Rope.sub rope 1 bodyLenLen) in
-      (RlpData (Rope.sub rope (1 + bodyLenLen) bodyLen), Rope.sub rope (1 + bodyLenLen + bodyLen) (len - 1 - bodyLenLen - bodyLen))
+      (if bodyLen < 56 then raise InvalidRlp else
+         (RlpData (Rope.sub rope (1 + bodyLenLen) bodyLen), Rope.sub rope (1 + bodyLenLen + bodyLen) (len - 1 - bodyLenLen - bodyLen)))
     else if firstChar < 248 then
       let bodyLen = firstChar - 192 in
       (RlpList (decodeList (Rope.sub rope 1 bodyLen)), Rope.sub rope (1 + bodyLen) (len - 1 - bodyLen))
     else
       let bodyLenLen = firstChar - 247 in
       let bodyLen = decodeInt (Rope.sub rope 1 bodyLenLen) in
-      (RlpList (decodeList (Rope.sub rope (1 + bodyLenLen) bodyLen)), Rope.sub rope (1 + bodyLenLen + bodyLen) (len - 1 - bodyLenLen - bodyLen))
+      (if bodyLen < 56 then raise InvalidRlp else
+         (RlpList (decodeList (Rope.sub rope (1 + bodyLenLen) bodyLen)), Rope.sub rope (1 + bodyLenLen + bodyLen) (len - 1 - bodyLenLen - bodyLen)))
 and decodeList (rope : Rope.t) : t list =
   if Rope.is_empty rope then []
   else
@@ -68,8 +72,11 @@ and decodeList (rope : Rope.t) : t list =
     hd :: decodeList rest
 
 let decode (rope : Rope.t) : t =
-  let (ret, rest) = decodeObj rope in
-  if Rope.is_empty rest then
-    ret
-  else
+  try
+    let (ret, rest) = decodeObj rope in
+    if Rope.is_empty rest then
+      ret
+    else
+      raise InvalidRlp
+  with Invalid_argument _ -> (* expected from Rope.sub *)
     raise InvalidRlp
