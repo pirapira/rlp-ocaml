@@ -11,3 +11,14 @@ Library rlp
   BuildTools: ocamlbuild
   Modules:    Rlp
   BuildDepends: rope
+Executable "test-rlp"
+  Path:       .
+  MainIs: testRlp.ml
+  BuildTools: ocamlbuild
+  Build$: flag(tests)
+  Install: false
+  CompiledObject: best
+  BuildDepends: rlp
+Test runTestRlp
+  TestTools: test-rlp
+  Command: $test_rlp
