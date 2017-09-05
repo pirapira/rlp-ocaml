@@ -1,8 +1,9 @@
 # OASIS_START
-# DO NOT EDIT (digest: ca05c4df8c4b15c3d586c92fdd54a78e)
+# DO NOT EDIT (digest: 663efaf99bbb6855cad17a32b9fa527b)
 version = "0.1"
 description =
 "An RLP serialization library. RLP can encode recursive lists of bytesequences into a bytesequence."
+requires = "rope"
 archive(byte) = "rlp.cma"
 archive(byte, plugin) = "rlp.cma"
 archive(native) = "rlp.cmxa"

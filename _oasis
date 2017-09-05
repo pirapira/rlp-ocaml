@@ -10,3 +10,4 @@ Library rlp
   Path:       .
   BuildTools: ocamlbuild
   Modules:    Rlp
+  BuildDepends: rope
