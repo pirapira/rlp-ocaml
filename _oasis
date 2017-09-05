@@ -1,0 +1,12 @@
+OASISFormat: 0.4
+Name:        rlp
+Version:     0.1
+Synopsis:    An RLP serialization library. RLP can encode recursive lists of
+  bytesequences into a bytesequence.
+Authors:     Yoichi Hirai
+License:     Apache-2.0
+Plugins:     META (0.4)
+Library rlp
+  Path:       .
+  BuildTools: ocamlbuild
+  Modules:    Rlp

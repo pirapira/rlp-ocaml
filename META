@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: ca05c4df8c4b15c3d586c92fdd54a78e)
+version = "0.1"
+description =
+"An RLP serialization library. RLP can encode recursive lists of bytesequences into a bytesequence."
+archive(byte) = "rlp.cma"
+archive(byte, plugin) = "rlp.cma"
+archive(native) = "rlp.cmxa"
+archive(native, plugin) = "rlp.cmxs"
+exists_if = "rlp.cma"
+# OASIS_STOP
+
