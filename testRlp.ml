@@ -40,7 +40,9 @@ let invalid11Test test_ctxt = invalidDecodeTest invalid11
 let encodeTest orig result =
   let encoded = encode (RlpData (Rope.of_string orig)) in
   let expected = (Rope.of_string (Hex.(to_string (`Hex result)))) in
-  assert_equal (Rope.to_string encoded) (Rope.to_string expected)
+  assert_equal (Rope.to_string encoded) (Rope.to_string expected);
+  let r = RlpData (Rope.of_string orig) in
+  assert_equal (Rope.to_string Rlp.(encode r)) (Rope.to_string (Rlp.(encode (decode (encode r)))))
 
 let dog test_ctxt =
   encodeTest "dog" "83646f67"
@@ -60,7 +62,9 @@ let longstring2 test_ctxt =
 let encodeObjTest orig result =
   let encoded = encode orig in
   let expected = (Rope.of_string (Hex.(to_string (`Hex result)))) in
-  assert_equal (Rope.to_string encoded) (Rope.to_string expected)
+  assert_equal (Rope.to_string encoded) (Rope.to_string expected);
+  assert_equal (Rope.to_string (Rlp.encode orig)) (Rope.to_string (Rlp.(encode (decode (encode orig)))))
+
 
 let emptylist test_ctxt =
   encodeObjTest (RlpList []) "c0"

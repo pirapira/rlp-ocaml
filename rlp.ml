@@ -39,7 +39,7 @@ exception InvalidRlp
 
 let rec decodeInt (r : Rope.t) : int =
   if Rope.is_empty r then 0 else
-    256 * (Char.code (Rope.get r 0)) + decodeInt (Rope.sub r 1 (Rope.length r - 1))
+    256 * decodeInt (Rope.sub r 0 (Rope.length r - 1)) + Char.code (Rope.get r (Rope.length r - 1))
 
 let rec decodeObj (rope : Rope.t) : (t * Rope.t) =
   let len = Rope.length rope in
@@ -64,7 +64,8 @@ let rec decodeObj (rope : Rope.t) : (t * Rope.t) =
       let bodyLenLen = firstChar - 247 in
       let bodyLen = decodeInt (Rope.sub rope 1 bodyLenLen) in
       (if bodyLen < 56 then raise InvalidRlp else
-         (RlpList (decodeList (Rope.sub rope (1 + bodyLenLen) bodyLen)), Rope.sub rope (1 + bodyLenLen + bodyLen) (len - 1 - bodyLenLen - bodyLen)))
+         (RlpList (decodeList (Rope.sub rope (1 + bodyLenLen) bodyLen)),
+          Rope.sub rope (1 + bodyLenLen + bodyLen) (len - 1 - bodyLenLen - bodyLen)))
 and decodeList (rope : Rope.t) : t list =
   decodeListInner [] rope
 and decodeListInner revAcc rope : t list =
@@ -74,11 +75,11 @@ and decodeListInner revAcc rope : t list =
     decodeListInner (hd :: revAcc) rest
 
 let decode (rope : Rope.t) : t =
-  try
+   try
     let (ret, rest) = decodeObj rope in
     if Rope.is_empty rest then
       ret
     else
       raise InvalidRlp
-  with Invalid_argument _ -> (* expected from Rope.sub *)
+ with Invalid_argument _ -> (* expected from Rope.sub *)
     raise InvalidRlp
