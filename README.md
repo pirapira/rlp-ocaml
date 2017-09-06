@@ -10,6 +10,6 @@ This library provides `encode : t -> Rope.t` and `decode : Rope.t -> t`.
 ```
 # Rope.to_string Rlp.(encode (RlpList [RlpData (Rope.of_string "aa"); RlpList []]));;
 - : string = "\196\130aa\192"
-# Rlp.decode (Rope.of_string "\196\130aa\192");;
-- : Rlp.t = Rlp.RlpList [Rlp.RlpData <abstr>; Rlp.RlpList []]
+# Rlp.(display (decode (Rope.of_string "\196\130aa\192")));;
+- : string = "[\"aa\", []]"
 ```

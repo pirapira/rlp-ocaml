@@ -2,6 +2,22 @@ type t =
   RlpData of Rope.t
 | RlpList of t list
 
+let rec displayRope (tree : t) =
+  let comma = Rope.of_string ", " in
+  let quotation = Rope.of_string "\"" in
+  let quote r = Rope.(concat empty [quotation; r; quotation]) in
+  match tree with
+  | RlpData content -> quote content
+  | RlpList lst ->
+     Rope.(concat empty
+                  [ of_string "["
+                  ; concat comma (List.map displayRope lst)
+                  ; of_string "]"
+                  ])
+
+let display (tree : t) =
+  Rope.to_string (displayRope tree)
+
 let immediateByte (i : int) : Rope.t =
   let () = assert (0 <= i) in
   let () = assert (i < 256) in

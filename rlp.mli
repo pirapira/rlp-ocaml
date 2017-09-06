@@ -1,3 +1,7 @@
+(** Rlp: Recursive Length Prefix format. **)
+
+(** {2} RLP Trees *)
+
 (** [t] is the type for RLP tree structures. *)
 type t =
   RlpData of Rope.t
@@ -8,8 +12,16 @@ type t =
  *)
 val rlpInt : int -> t
 
-(* [rlpBigInt] is similar to [rlpInt]. *)
+(** [rlpBigInt] is similar to [rlpInt]. **)
 val rlpBigInt : Big_int.big_int -> t
+
+(** [displayRope t] converts the RLP tree [t] into a JSON-like string (represented as a [Rope.t]). *)
+val displayRope : t -> Rope.t
+
+(** [displayRope t] converts the RLP tree [t] into a JSON-like string (represented as a [Rope.t]). *)
+val display : t -> string
+
+(** {2} Encoding and Decoding *)
 
 (** [encode t] encodes the RLP tree structure into a byte string represented as a Rope.t *)
 val encode : t -> Rope.t
