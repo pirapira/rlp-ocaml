@@ -3,7 +3,7 @@ RLP serialization for OCaml
 
 [RLP](https://github.com/ethereum/wiki/wiki/RLP) is a way to encode trees into a byte string.  The encoded trees are muti-way trees with byte strings as leaves.
 
-This library provides `encode : t -> Rope.t` and `decode : Rope.t -> t`.
+Such a tree lives in a type `t`, and this library can encode such a tree into a byte string (represented by `Rope.t`).  The library provides `encode : t -> Rope.t` and `decode : Rope.t -> t`, where `decode(encode a)` should be equal to `a`.
 
 ## Example
 
