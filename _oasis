@@ -22,3 +22,9 @@ Executable "test-rlp"
 Test runTestRlp
   TestTools: test-rlp
   Command: $test_rlp
+Document api
+  Title: RLP API
+  Type: ocamlbuild (0.4)
+  BuildTools: ocamldoc,ocamlbuild
+  XOCamlbuildPath: .
+  XOCamlbuildLibraries: rlp

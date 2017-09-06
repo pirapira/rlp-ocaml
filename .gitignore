@@ -2,6 +2,7 @@ _build
 *.native
 *.byte
 *.docdir
+*.odocl
 setup.data
 setup.log
 *~
