@@ -20,4 +20,5 @@ depends: [
   "ounit"
   "rope"
   "hex"
+  "num"
 ]
