@@ -143,6 +143,34 @@ let dictTest1 test_ctx =
                            RlpList [ rlpString "key4"; rlpString "val4"]])
                 "ECCA846b6579318476616c31CA846b6579328476616c32CA846b6579338476616c33CA846b6579348476616c34"
 
+let smallint test_ctx =
+  encodeObjTest (rlpInt 1) "01"
+
+let smallint2 test_ctx =
+  encodeObjTest (rlpInt 16) "10"
+
+let smallint3 test_ctx =
+  encodeObjTest (rlpInt 79) "4f"
+
+let smallint4 test_ctx =
+  encodeObjTest (rlpInt 127) "7f"
+
+let mediumint1 test_ctx =
+  encodeObjTest (rlpInt 128) "8180"
+
+let mediumint2 test_ctx =
+  encodeObjTest (rlpInt 1000) "8203e8"
+
+let mediumint3 test_ctx =
+  encodeObjTest (rlpInt 100000) "830186a0"
+
+let mediumint4 test_ctx =
+  encodeObjTest (rlpBigInt (Big_int.big_int_of_string "83729609699884896815286331701780722"))
+                "8F102030405060708090A0B0C0D0E0F2"
+
+let mediumint5 test_ctx =
+  encodeObjTest (rlpBigInt (Big_int.big_int_of_string "105315505618206987246253880190783558935785933862974822347068935681"))
+                "9C0100020003000400050006000700080009000A000B000C000D000E01"
 
 let suite =
   "suite">:::
@@ -171,6 +199,14 @@ let suite =
     ;"invalid9">:: invalid9Test
     ;"invalid10">:: invalid10Test
     ;"invalid11">:: invalid11Test
+    ;"smallint">:: smallint
+    ;"smallint2">:: smallint2
+    ;"smallint3">:: smallint3
+    ;"mediumint1">:: mediumint1
+    ;"mediumint2">:: mediumint2
+    ;"mediumint3">:: mediumint3
+    ;"mediumint4">:: mediumint4
+    ;"mediumint5">:: mediumint5
     ]
 
 let () = run_test_tt_main suite

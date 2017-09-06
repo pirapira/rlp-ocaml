@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 0d1c536e6f46f8605aaf869c6baae23d)
+# DO NOT EDIT (digest: 2d201892a9f1a32d87c42852fe0dbd59)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -18,10 +18,12 @@ true: annot, bin_annot
 "rlp.cmxs": use_rlp
 # Executable test-rlp
 <testRlp.{native,byte}>: pkg_hex
+<testRlp.{native,byte}>: pkg_num
 <testRlp.{native,byte}>: pkg_oUnit
 <testRlp.{native,byte}>: pkg_rope
 <testRlp.{native,byte}>: use_rlp
 <*.ml{,i,y}>: pkg_hex
+<*.ml{,i,y}>: pkg_num
 <*.ml{,i,y}>: pkg_oUnit
 <*.ml{,i,y}>: pkg_rope
 <*.ml{,i,y}>: use_rlp

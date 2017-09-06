@@ -12,6 +12,20 @@ let rec encodeInt (i : int) : Rope.t =
   if i = 0 then Rope.empty else
     Rope.(concat2 (encodeInt (i / 256)) (immediateByte (i mod 256)))
 
+let rec encodeBigInt (i : Big_int.big_int) : Rope.t =
+  let () = assert (Big_int.sign_big_int i >= 0) in
+  if Big_int.(eq_big_int zero_big_int i) then Rope.empty else
+    let modulo = Big_int.big_int_of_int 256 in
+    Rope.(concat2 (encodeBigInt (Big_int.div_big_int i modulo)) (immediateByte (Big_int.(int_of_big_int (mod_big_int i modulo)))))
+
+let rlpInt (i : int) : t =
+  if i < 0 then raise (Invalid_argument "rlpInt: negative input.") else
+    RlpData (encodeInt i)
+
+let rlpBigInt (i : Big_int.big_int) : t =
+  if Big_int.sign_big_int i < 0 then raise (Invalid_argument "rlpBigInt: negative input.") else
+    RlpData (encodeBigInt i)
+
 let rec encode (obj : t) : Rope.t =
   match obj with
   | RlpData rope -> encodeRope rope

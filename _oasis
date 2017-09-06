@@ -10,7 +10,7 @@ Library rlp
   Path:       .
   BuildTools: ocamlbuild
   Modules:    Rlp
-  BuildDepends: rope
+  BuildDepends: rope, num
 Executable "test-rlp"
   Path:       .
   MainIs: testRlp.ml
@@ -18,7 +18,7 @@ Executable "test-rlp"
   Build$: flag(tests)
   Install: false
   CompiledObject: best
-  BuildDepends: rlp, oUnit, hex
+  BuildDepends: rlp, oUnit, hex, rope, num
 Test runTestRlp
   TestTools: test-rlp
   Command: $test_rlp
